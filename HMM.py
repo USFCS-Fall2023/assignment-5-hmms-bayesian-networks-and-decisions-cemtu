@@ -139,6 +139,7 @@ class HMM:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='HMM generator')
+    parser.add_argument('model_file', type=str, help='HMM model file without extension')
     parser.add_argument('--generate', type=int, help='Generate a sequence of specified length')
     parser.add_argument('--forward', type=str, help='Run the forward algorithm on the given observation file')
     parser.add_argument('--viterbi', type=str, help='Run the Viterbi algorithm on the given observation file')
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     model = HMM()
-    model.load('partofspeech.browntags.trained')
+    model.load(args.model_file)
 
     # if generate
     if args.generate:
