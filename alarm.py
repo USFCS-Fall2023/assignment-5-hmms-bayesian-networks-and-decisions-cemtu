@@ -46,13 +46,23 @@ cpd_marycalls = TabularCPD(
 state_names={"Alarm":['yes','no'], "MaryCalls":['yes', 'no']},
 )
 
-# Associating the parameters with the model structure
 alarm_model.add_cpds(
     cpd_burglary, cpd_earthquake, cpd_alarm, cpd_johncalls, cpd_marycalls)
 
 alarm_infer = VariableElimination(alarm_model)
 
-print(alarm_infer.query(variables=["JohnCalls"],evidence={"Earthquake":"yes"}))
-q = alarm_infer.query(variables=["JohnCalls", "Earthquake"],evidence={"Burglary":"yes","MaryCalls":"yes"}))
-print(q)
+# print(alarm_infer.query(variables=["JohnCalls"],evidence={"Earthquake":"yes"}))
+# q = alarm_infer.query(variables=["JohnCalls", "Earthquake"],evidence={"Burglary":"yes","MaryCalls":"yes"})
+# print(q)
 
+# Query 1
+prob_mary_calls_given_john_calls = alarm_infer.query(variables=["MaryCalls"], evidence={"JohnCalls": 'yes'})
+print(prob_mary_calls_given_john_calls)
+
+# Query 2
+prob_john_and_mary_calls_given_alarm = alarm_infer.query(variables=["JohnCalls", "MaryCalls"], evidence={"Alarm": 'yes'})
+print(prob_john_and_mary_calls_given_alarm)
+
+# Query 3
+prob_alarm_given_mary_calls = alarm_infer.query(variables=["Alarm"], evidence={"MaryCalls": 'yes'})
+print(prob_alarm_given_mary_calls)
